@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using TestingProject.BLL.DTOs;
-using TestingProject.DAL.Entities;
+using TestingProject.DAL.Errors;
+
 
 namespace TestingProject.BLL.Validators
 {
@@ -10,17 +11,17 @@ namespace TestingProject.BLL.Validators
         {
             RuleFor(x => x.DateTimeFormatString)
                 .NotEmpty()
-                .WithMessage("Incorrect date or time!");
+                .WithMessage(ErrorConsts.DateOrTimeError);
 
             RuleFor(x => x.CarNumber)
                 .NotEmpty()
                 .MaximumLength(12)
-                .WithMessage("Incorrect auto number!");
+                .WithMessage(ErrorConsts.CarNumberError);
 
             RuleFor(x => x.Speed)
                 .NotEmpty()
                 .ExclusiveBetween(0.0, 500.0)
-                .WithMessage("Incorrect auto Speed!");
+                .WithMessage(ErrorConsts.SpeedError);
         }
     }
 }

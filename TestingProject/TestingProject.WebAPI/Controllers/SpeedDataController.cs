@@ -3,6 +3,7 @@ using System.Globalization;
 using TestingProject.BLL.DTOs;
 using TestingProject.BLL.Services.Interfaces;
 using TestingProject.DAL.Entities;
+using TestingProject.DAL.Errors;
 
 namespace TestingProject.WebAPI.Controllers
 {
@@ -21,8 +22,8 @@ namespace TestingProject.WebAPI.Controllers
             _senderSpeedDataService = senderSpeedDataService;
         }
 
-        [HttpGet("GetViolators/{dateTime}/{speed:double}")]
-        public async Task<IEnumerable<SpeedData>> GetViolators(string dateTime, Double speed, CancellationToken cancellationToken)
+        [HttpGet("violators")]
+        public async Task<IEnumerable<SpeedData>> GetViolators([FromQuery] string dateTime, [FromQuery] Double speed, CancellationToken cancellationToken)
         {
             if (DateTime.TryParseExact(dateTime, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
             {
@@ -30,11 +31,11 @@ namespace TestingProject.WebAPI.Controllers
                 return await _senderSpeedDataService.GetCarsAsync(parsedDateTime, speed, cancellationToken);
             }
             else
-                throw new Exception("Invalid date format. Please use dd.MM.yyyy.");
+                throw new Exception(ErrorConsts.DataFormatError);
         }
 
-        [HttpGet("GetMinMax/{dateTime}")]
-        public async Task<IEnumerable<SpeedData>> GetMinMaxSpeedData(string dateTime, CancellationToken cancellationToken)
+        [HttpGet("minMaxSpeedData")]
+        public async Task<IEnumerable<SpeedData>> GetMinMaxSpeedData([FromQuery] string dateTime, CancellationToken cancellationToken)
         {
             if (DateTime.TryParseExact(dateTime, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
             {
@@ -42,11 +43,11 @@ namespace TestingProject.WebAPI.Controllers
                 return await _senderSpeedDataService.GetCarsWithMinMaxSpeedAsync(parsedDateTime, cancellationToken);
             }
             else
-                throw new Exception("Invalid date format. Please use dd.MM.yyyy.");
+                throw new Exception(ErrorConsts.DataFormatError);
         }
 
-        [HttpPost("Add")]
-        public async Task WtiteSpeedData(AddSpeedDataDTO addSpeedDataDTO, CancellationToken cancellationToken)
+        [HttpPost("speedData")]
+        public async Task WtiteSpeedData([FromBody] AddSpeedDataDTO addSpeedDataDTO, CancellationToken cancellationToken)
         {
             _logger.LogInformation("system call method add speedData");
             await _receiverSpeedDataService.WriteSpeedDataInFileAsync(addSpeedDataDTO, cancellationToken);

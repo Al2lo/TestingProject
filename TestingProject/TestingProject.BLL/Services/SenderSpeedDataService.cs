@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Text.Json;
 using TestingProject.BLL.Services.Interfaces;
 using TestingProject.DAL.Entities;
+using TestingProject.DAL.Errors;
 
 namespace TestingProject.BLL.Services
 {
@@ -29,10 +30,10 @@ namespace TestingProject.BLL.Services
                 _endWorkTime = endWorkTime;
             }
             else
-                throw new Exception("Error: incorrect work time");
+                throw new Exception(ErrorConsts.WorkTimeError);
 
             if (path == null)
-                throw new Exception("directory path can not be null");
+                throw new Exception(ErrorConsts.DirectoryPathError);
            
             _directoryData = path;
         }
@@ -40,7 +41,7 @@ namespace TestingProject.BLL.Services
         public async Task<IEnumerable<SpeedData>> GetCarsAsync(DateTime dateTime, Double speed, CancellationToken cancellationToken)
         {
             if (!IsWorkTime())
-                throw new Exception("The system is not working at this time");
+                throw new Exception(ErrorConsts.SystemWorkError);
 
             var filePath = GetFilePath(dateTime);
             var outSpeedData = new List<SpeedData>();
@@ -53,7 +54,7 @@ namespace TestingProject.BLL.Services
         public async Task<IEnumerable<SpeedData>> GetCarsWithMinMaxSpeedAsync(DateTime date, CancellationToken cancellationToken)
         {
             if (!IsWorkTime())
-                throw new Exception("The system is not working at this time");
+                throw new Exception(ErrorConsts.SystemWorkError);
 
             var filePath = GetFilePath(date);
             var outSpeedData = new List<SpeedData>();

@@ -8,6 +8,7 @@ using System.Globalization;
 using TestingProject.BLL.DTOs;
 using TestingProject.BLL.Services.Interfaces;
 using TestingProject.DAL.Entities;
+using TestingProject.DAL.Errors;
 
 namespace TestingProject.BLL.Services
 {
@@ -24,7 +25,7 @@ namespace TestingProject.BLL.Services
             var path = configuration.GetRequiredSection("AppSettings")["DirectoryPath"];
 
             if (path == null)
-                throw new Exception("directory path can not be null");
+                throw new Exception(ErrorConsts.DirectoryPathError);
 
             _directoryData = path;
         }
@@ -34,9 +35,9 @@ namespace TestingProject.BLL.Services
             var validationResult = _validator.Validate(addSpeedDataDTO);
 
             if (!validationResult.IsValid)
-                throw new Exception("data is not valid");
+                throw new Exception(ErrorConsts.InputDataError);
 
-            SpeedData speedData = new()
+            var speedData = new SpeedData()
             {
                 DateTime = DateTime.ParseExact(addSpeedDataDTO.DateTimeFormatString, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture),
                 Speed = addSpeedDataDTO.Speed,
