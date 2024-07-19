@@ -50,7 +50,7 @@ namespace TestingProject.BLL.Services
             return outSpeedData;
         }
 
-        public async Task<IEnumerable<SpeedData>> GetCarsWithMinMaxSpeed(DateTime date, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SpeedData>> GetCarsWithMinMaxSpeedAsync(DateTime date, CancellationToken cancellationToken)
         {
             if (!IsWorkTime())
                 throw new Exception("The system is not working at this time");

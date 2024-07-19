@@ -38,7 +38,7 @@ namespace TestingProject.WebAPI.Controllers
             if (DateTime.TryParseExact(dateTime, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
             {
                 _logger.LogInformation("system call method get min and max speedData");
-                return await _senderSpeedDataService.GetCarsWithMinMaxSpeed(parsedDateTime, cancellationToken);
+                return await _senderSpeedDataService.GetCarsWithMinMaxSpeedAsync(parsedDateTime, cancellationToken);
             }
             else
                 throw new Exception("Invalid date format. Please use dd.MM.yyyy.");
