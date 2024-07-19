@@ -1,16 +1,15 @@
 ﻿using FluentValidation;
+using TestingProject.BLL.DTOs;
 using TestingProject.DAL.Entities;
 
 namespace TestingProject.BLL.Validators
 {
-    public class SpeedDataValidator : AbstractValidator<SpeedData>
+    public class SpeedDataValidator : AbstractValidator<AddSpeedDataDTO>
     {
         public SpeedDataValidator()
         {
-            RuleFor(x => x.DateTime)
+            RuleFor(x => x.DateTimeFormatString)
                 .NotEmpty()
-                .GreaterThanOrEqualTo(new DateTime(2000, 1, 1))
-                .LessThanOrEqualTo(DateTime.Now)
                 .WithMessage("Incorrect date or time!");
 
             RuleFor(x => x.CarNumber)

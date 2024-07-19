@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using TestingProject.BLL.DTOs;
 using TestingProject.BLL.Services;
 using TestingProject.BLL.Services.Interfaces;
 using TestingProject.BLL.Validators;
@@ -13,7 +14,7 @@ namespace TestingProject.BLL.Configuration
         {
             services.AddScoped<IReceiverSpeedDataService, ReceiverSpeedDataService>();
             services.AddScoped<ISenderSpeedDataService, SenderSpeedDataService>();
-            services.AddTransient<IValidator<SpeedData>, SpeedDataValidator>();
+            services.AddTransient<IValidator<AddSpeedDataDTO>, SpeedDataValidator>();
 
             return services;
         }

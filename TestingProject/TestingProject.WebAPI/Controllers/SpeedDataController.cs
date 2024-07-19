@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using TestingProject.BLL.DTOs;
 using TestingProject.BLL.Services.Interfaces;
 using TestingProject.DAL.Entities;
 
@@ -45,10 +46,10 @@ namespace TestingProject.WebAPI.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task WtiteSpeedData(SpeedData speedData, CancellationToken cancellationToken)
+        public async Task WtiteSpeedData(AddSpeedDataDTO addSpeedDataDTO, CancellationToken cancellationToken)
         {
             _logger.LogInformation("system call method add speedData");
-            await _receiverSpeedDataService.WriteSpeedDataInFileAsync(speedData, cancellationToken);
+            await _receiverSpeedDataService.WriteSpeedDataInFileAsync(addSpeedDataDTO, cancellationToken);
         }
     }
 }
