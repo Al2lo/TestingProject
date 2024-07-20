@@ -4,7 +4,6 @@ using TestingProject.BLL.DTOs;
 using TestingProject.BLL.Services;
 using TestingProject.BLL.Services.Interfaces;
 using TestingProject.BLL.Validators;
-using TestingProject.DAL.Entities;
 
 namespace TestingProject.BLL.Configuration
 {

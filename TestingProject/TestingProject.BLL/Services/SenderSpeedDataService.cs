@@ -69,7 +69,7 @@ namespace TestingProject.BLL.Services
         private bool IsWorkTime()
         {
             var timeNow = DateTime.Now;
-            TimeSpan currentTimeSpan = new TimeSpan(timeNow.Hour, timeNow.Minute, timeNow.Second);
+            var currentTimeSpan = new TimeSpan(timeNow.Hour, timeNow.Minute, timeNow.Second);
             return currentTimeSpan >= _startWorkTime && currentTimeSpan <= _endWorkTime;
         }
 

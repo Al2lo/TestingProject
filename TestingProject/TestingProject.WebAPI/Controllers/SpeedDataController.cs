@@ -25,25 +25,21 @@ namespace TestingProject.WebAPI.Controllers
         [HttpGet("violators")]
         public async Task<IEnumerable<SpeedData>> GetViolators([FromQuery] string dateTime, [FromQuery] Double speed, CancellationToken cancellationToken)
         {
-            if (DateTime.TryParseExact(dateTime, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
-            {
-                _logger.LogInformation("system call method GetViolators");
-                return await _senderSpeedDataService.GetCarsAsync(parsedDateTime, speed, cancellationToken);
-            }
-            else
+            if (!DateTime.TryParseExact(dateTime, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
                 throw new Exception(ErrorConsts.DataFormatError);
+
+            _logger.LogInformation("system call method GetViolators");
+            return await _senderSpeedDataService.GetCarsAsync(parsedDateTime, speed, cancellationToken);
         }
 
         [HttpGet("minMaxSpeedData")]
         public async Task<IEnumerable<SpeedData>> GetMinMaxSpeedData([FromQuery] string dateTime, CancellationToken cancellationToken)
         {
-            if (DateTime.TryParseExact(dateTime, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
-            {
-                _logger.LogInformation("system call method get min and max speedData");
-                return await _senderSpeedDataService.GetCarsWithMinMaxSpeedAsync(parsedDateTime, cancellationToken);
-            }
-            else
+            if (!DateTime.TryParseExact(dateTime, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
                 throw new Exception(ErrorConsts.DataFormatError);
+
+            _logger.LogInformation("system call method get min and max speedData");
+            return await _senderSpeedDataService.GetCarsWithMinMaxSpeedAsync(parsedDateTime, cancellationToken);
         }
 
         [HttpPost("speedData")]

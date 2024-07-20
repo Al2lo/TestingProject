@@ -1,5 +1,4 @@
 ﻿using TestingProject.BLL.DTOs;
-using TestingProject.DAL.Entities;
 
 namespace TestingProject.BLL.Services.Interfaces
 {

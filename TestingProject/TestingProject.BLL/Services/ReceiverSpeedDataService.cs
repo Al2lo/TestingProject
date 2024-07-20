@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Globalization;
 using TestingProject.BLL.DTOs;
 using TestingProject.BLL.Services.Interfaces;
@@ -37,15 +35,14 @@ namespace TestingProject.BLL.Services
             if (!validationResult.IsValid)
                 throw new Exception(ErrorConsts.InputDataError);
 
-            var speedData = new SpeedData();
-
-            if (DateTime.TryParseExact(addSpeedDataDTO.DateTimeFormatString, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
-                speedData.DateTime = parsedDateTime;
-            else
+            if (!DateTime.TryParseExact(addSpeedDataDTO.DateTimeFormatString, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
                 throw new Exception(ErrorConsts.DateOrTimeError);
 
-            speedData.Speed = addSpeedDataDTO.Speed;
-            speedData.CarNumber = addSpeedDataDTO.CarNumber;
+            var speedData = new SpeedData() {
+                DateTime = parsedDateTime,
+                Speed = addSpeedDataDTO.Speed,
+                CarNumber = addSpeedDataDTO.CarNumber
+            };
             var file = GetFilePath(speedData.DateTime);
             await File.AppendAllTextAsync(file, JsonConvert.SerializeObject(speedData) + Environment.NewLine, cancellationToken);
             _logger.LogInformation($"Speed data saved: {speedData.DateTime} - {speedData.CarNumber} - {speedData.Speed}");
